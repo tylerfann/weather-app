@@ -3,45 +3,79 @@ import "./App.css";
 import { getWeatherByZipCode } from "./lib/getWeatherByZipCode";
 import Header from "./components/Header/Header";
 import CityTile from "./components/CityTile/CityTile";
+import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+
+const centerItem = { display: "flex", justifyContent: "center" };
 
 class App extends Component {
-  state = {
-    data: {},
-    searchZip: ""
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: {},
+      lastSearchZip: "",
+      searchZip: "",
+      error: ""
+    };
+    // Create a ref to store the textInput DOM element
+    this.textInput = React.createRef();
+  }
+ 
 
   handleInputChange = event => {
     this.setState({ searchZip: event.target.value });
   };
 
   handleSubmit = async event => {
-    const { searchZip } = this.state;
+    const { searchZip, lastSearchZip } = this.state;
     event.preventDefault();
-    if (searchZip) {
-      const res = await getWeatherByZipCode(this.state.searchZip);
-      if (res) {
-        this.setState({ data: res.data });
+    const msg = "Enter a valid US zip code";
+
+    if (searchZip && searchZip !== lastSearchZip) {
+      try {
+        const res = await getWeatherByZipCode(searchZip);
+        console.log(res);
+        if (res) {
+          this.setState({
+            data: res.data,
+            error: "",
+            lastSearchZip: searchZip
+          });
+        }
+      } catch (err) {
+        console.error(msg);
+        this.setState({ error: msg, lastSearchZip: searchZip });
+        this.textInput.current.focus();
       }
+    } else if (!searchZip) {
+      this.setState({ error: msg, lastSearchZip: "" });
+      this.textInput.current.focus();
     }
   };
 
   render() {
-    const { data } = this.state;
+    const { data, error } = this.state;
     return (
       <div className="app">
         <Header
           onChange={this.handleInputChange}
           onSubmit={this.handleSubmit}
           textValue={data.searchZip}
+          hasError={error}
+          inputRef={this.textInput}
         />
-        {data.weather && (
-          <div style={{display: 'flex', justifyContent: 'center'}}>
+        {!error && data.weather && (
+          <div style={centerItem}>
             <CityTile
               name={data.name}
               icon={data.weather[0].icon}
               temp={data.main.temp}
               desc={data.weather[0].description}
             />
+          </div>
+        )}
+        {error && (
+          <div style={centerItem}>
+            <ErrorMessage msg={error} />
           </div>
         )}
       </div>

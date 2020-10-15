@@ -29,7 +29,7 @@
   font-style: italic;
 }
 
-.form-label-input {
+.form-input {
   width: 250px;
   height: 40px;
   text-align: center;
@@ -38,10 +38,13 @@
 
 .form-submit {
   margin-top: 20px;
-  /* width: 100px; */
   height: 50px;
-  /* align-self: center; */
   font-size: 22px;
   color: white;
   background-color: #004080;
+}
+
+.form-input-error {
+  background-color: #ffb3b3;
+  border: 2px solid #b30000;
 }

@@ -1,6 +1,10 @@
 import React from "react";
 import "./Header.css";
 const Header = props => {
+  let searchInputStyle = "form-input";
+  if (props.hasError) {
+    searchInputStyle += ' form-input-error'
+  }
   return (
     <div className="header-wrapper">
       <h1 className="header-title">Today's Weather</h1>
@@ -13,14 +17,15 @@ const Header = props => {
           placeholder="example: 02921"
           id="search"
           name="search"
-          className="form-label-input"
+          className={searchInputStyle}
           onChange={props.onChange}
           value={props.textValue}
+          ref={props.inputRef}
         />
         <input
           type="submit"
           value="Search"
-          className="form-submit"
+          className='form-submit'
           onClick={props.onSubmit}
         />
       </form>
