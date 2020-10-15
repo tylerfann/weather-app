@@ -1,0 +1,31 @@
+.tile-wrapper {
+    border: solid 2px white;
+    width: 200px;
+    padding: 20px;
+    text-align: center;
+    margin: 10px 20px 20px 20px;
+    background-color:  #3399ff;
+    border-radius: 10px;
+    color: #e6f2ff;
+}
+
+.tile-city-name {
+    font-size: 28px;
+}
+
+.tile-icon {
+    width: 100px;
+    height: 100px;
+}
+
+.tile-temp {
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.tile-desc {
+    font-size: 20px;
+    font-style: italic;
+}
+
