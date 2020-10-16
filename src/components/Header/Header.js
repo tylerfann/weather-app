@@ -1,34 +1,19 @@
 import React from "react";
 import "./Header.css";
+import { Link } from "react-router-dom";
+
 const Header = props => {
-  let searchInputStyle = "form-input";
-  if (props.hasError) {
-    searchInputStyle += ' form-input-error'
-  }
   return (
     <div className="header-wrapper">
-      <h1 className="header-title">Today's Weather</h1>
-      <form className="form-wrapper">
-        <label htmlFor="search" className="form-label-text">
-          Search by zip code:
-        </label>
-        <input
-          type="text"
-          placeholder="example: 02921"
-          id="search"
-          name="search"
-          className={searchInputStyle}
-          onChange={props.onChange}
-          value={props.textValue}
-          ref={props.inputRef}
-        />
-        <input
-          type="submit"
-          value="Search"
-          className='form-submit'
-          onClick={props.onSubmit}
-        />
-      </form>
+      <Link to="/" className="header-link">Home</Link>
+      <div>
+        <Link to="/signup" className="header-link">
+          Sign up
+        </Link>
+        <Link to="/login" className="header-link">
+          Login
+        </Link>
+      </div>
     </div>
   );
 };

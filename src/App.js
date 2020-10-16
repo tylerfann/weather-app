@@ -1,83 +1,24 @@
 import React, { Component } from "react";
 import "./App.css";
-import { getWeatherByZipCode } from "./lib/getWeatherByZipCode";
-import Header from "./components/Header/Header";
-import CityTile from "./components/CityTile/CityTile";
-import ErrorMessage from "./components/ErrorMessage/ErrorMessage";
+import Home from "./screens/Home/Home";
+import SignUp from "./screens/SignUp/SignUp";
+import Login from './screens/Login/Login'
+import NotFound from './screens/NotFound/NotFound';
 
-const centerItem = { display: "flex", justifyContent: "center" };
+import { Route, Switch } from "react-router-dom";
+import Header from './components/Header/Header';
 
 class App extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      data: {},
-      lastSearchZip: "",
-      searchZip: "",
-      error: ""
-    };
-    // Create a ref to store the textInput DOM element
-    this.textInput = React.createRef();
-  }
- 
-
-  handleInputChange = event => {
-    this.setState({ searchZip: event.target.value });
-  };
-
-  handleSubmit = async event => {
-    const { searchZip, lastSearchZip } = this.state;
-    event.preventDefault();
-    const msg = "Enter a valid US zip code";
-
-    if (searchZip && searchZip !== lastSearchZip) {
-      try {
-        const res = await getWeatherByZipCode(searchZip);
-        console.log(res);
-        if (res) {
-          this.setState({
-            data: res.data,
-            error: "",
-            lastSearchZip: searchZip
-          });
-        }
-      } catch (err) {
-        console.error(msg);
-        this.setState({ error: msg, lastSearchZip: searchZip });
-        this.textInput.current.focus();
-      }
-    } else if (!searchZip) {
-      this.setState({ error: msg, lastSearchZip: "" });
-      this.textInput.current.focus();
-    }
-  };
-
   render() {
-    const { data, error } = this.state;
     return (
       <div className="app">
-        <Header
-          onChange={this.handleInputChange}
-          onSubmit={this.handleSubmit}
-          textValue={data.searchZip}
-          hasError={error}
-          inputRef={this.textInput}
-        />
-        {!error && data.weather && (
-          <div style={centerItem}>
-            <CityTile
-              name={data.name}
-              icon={data.weather[0].icon}
-              temp={data.main.temp}
-              desc={data.weather[0].description}
-            />
-          </div>
-        )}
-        {error && (
-          <div style={centerItem}>
-            <ErrorMessage msg={error} />
-          </div>
-        )}
+      <Header />
+        <Switch>
+          <Route path="/" component={Home} exact />
+          <Route path="/signup" component={SignUp} exact />
+          <Route path="/login" component={Login} exact />
+          <Route component={NotFound} />
+        </Switch>
       </div>
     );
   }
