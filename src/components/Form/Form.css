@@ -1,0 +1,18 @@
+.form-comp-wrapper {
+    display: flex;
+    justify-content: center;
+    padding: 25px 0;    
+}
+
+.form-comp-title {
+    padding-bottom: 20px;
+    color: white;
+    font-size: 32px;
+}
+
+.form-comp-input-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
